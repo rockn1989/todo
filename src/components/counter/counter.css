@@ -1,0 +1,6 @@
+.todo-list-counter {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: bold;
+    width: 100%;
+}
