@@ -42,6 +42,14 @@ export default class App extends Component {
         };
       });
     };
+
+    this.onToggleImportant = (id) => {
+      console.log(`12`)
+    };
+
+    this.onToggleDone = (id) => {
+      console.log(`34`)
+    };
   }
 
   state = {
@@ -62,7 +70,12 @@ export default class App extends Component {
           <ItemStatusFilter />
         </div>
 
-        <TodoList todos={this.state.todoData} onDeleted={this.deleteItem} />
+        <TodoList 
+          todos={this.state.todoData} 
+          onDeleted={this.deleteItem} 
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
+        />
 
         <ItemAddForm onItemAddItem={this.addItem} />
       </div>
