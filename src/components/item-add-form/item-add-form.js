@@ -37,7 +37,6 @@ export default class ItemAddForm extends Component {
         />
         <button 
           className="btn btn-outline-secondary"
-          onClick={() => this.props.onItemAddItem(`Hellow world`) }
         >Add Item</button>
       </form>
     );
