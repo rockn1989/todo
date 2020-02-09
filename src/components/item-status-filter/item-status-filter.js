@@ -3,13 +3,13 @@ import './item-status-filter.css';
 
 export default class ItemStatusFilter extends Component {
 
-	constructor({onSort, data}) {
+	constructor({updateState, data}) {
 		super();
-		this.onSort = onSort;
+		this.update = updateState;
 		this.data = data;
 	}
 
-/* 	onSort(status) {
+	onSort = (status) => {
 		let todos = [];
 		switch (status) {
 			case `active`: todos = this.data.filter(({done}) => done === false);
@@ -19,8 +19,8 @@ export default class ItemStatusFilter extends Component {
 			default:
 				todos = [...this.data]; 
 		}
-		this.update(todos);
-	} */
+		//this.update(todos);
+	}
 
 	render() {
 		const { onSort } = this.props;
@@ -30,21 +30,21 @@ export default class ItemStatusFilter extends Component {
 				<button type="button"
 						className="btn btn-info"
 						onClick={() => {
-							onSort(`all`);
+							onSort(`all`, this.data);
 						}}
 				>All</button>
 
 				<button type="button"
 						className="btn btn-outline-secondary"
 						onClick={() => {
-							onSort(`active`);
+							onSort(`active`, this.data);
 						}}
 				>Active</button>
 
 				<button type="button"
 					className="btn btn-outline-secondary"
 					onClick={() => {
-						onSort(`done`);
+						onSort(`done`, this.data);
 					}}
 			>Done</button>
 			</div>

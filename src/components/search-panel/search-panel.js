@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import './search-panel.css';
 
 export default class SearchPanel extends Component {
-  constructor({updateState, data}) {
+  constructor() {
     super();
-    this.updateState = updateState;
-    this.data = data;
+    this.state = {
+      term: ''
+    };
   }
 
   onSearch(value, data) {
@@ -18,17 +19,22 @@ export default class SearchPanel extends Component {
     
   }
 
+  onSearchChange = (e) => {
+    const term = e.target.value;
+    this.setState({
+      term: term
+    });
+    this.props.onSearchChange(term);
+  }
+
   render() {
-    const data = this.props.data;
     return (
       <form className="search-form">
         <input type="text"
           className="form-control search-input"
           placeholder="search" 
-          onChange={(e)=> {
-            const value = e.target.value;
-            this.onSearch(value, data);
-          }}
+          value={this.state.term}
+          onChange={this.onSearchChange}
         />
       </form>
     );
