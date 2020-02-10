@@ -21,7 +21,8 @@ export default class App extends Component {
         this.createTodoItem(`Mike App`),
         this.createTodoItem(`Have a lunch`)
       ],
-      term: ''
+      term: '',
+      field: ''
     };
 
     this.deleteItem = (id) => {
@@ -97,25 +98,27 @@ export default class App extends Component {
       return items.filter((item) => {
         return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
       });
-    }
+    };
 
-    this.onSort = (status, data) => {
-      this.setState(({todoData}) => {
+    this.onSortChange = (field) => {
+      this.setState({
+        field: field
+      });
+    };
+
+    this.onSort = (items, field) => {
         let todos = [];
 
-        switch (status) {
-          case `active`: todos = data.filter(({ done }) => !done);
+        switch (field) {
+          case `active`: todos = items.filter(({ done }) => !done);
             break;
-          case `done`: todos = data.filter(({ done }) => done);
+          case `done`: todos = items.filter(({ done }) => done);
             break;
           default:
-            todos = [...data];
+            todos = [...items];
         };
 
-        return {
-          todoData: todos
-        }
-      })
+        return todos;
     }
   }
 
@@ -131,9 +134,10 @@ export default class App extends Component {
   };
 
   render() {
-    const { todoData, term } = this.state;
+    const { todoData, term, field } = this.state;
 
     const visibleItems = this.search(todoData, term);
+    const sortedItems = this.onSort(todoData, field);
     const doneCount = todoData.filter(el => el.done).length;
     const todoCount = todoData.length - doneCount;
     const todoCountAll = todoData.length;
@@ -146,8 +150,8 @@ export default class App extends Component {
             onSearchChange={this.onSearchChange}
           />
           <ItemStatusFilter 
-            data={todoData}
-            onSort={this.onSort}
+            data={sortedItems}
+            onSortChange={this.onSortChange}
           />
         </div>
 
