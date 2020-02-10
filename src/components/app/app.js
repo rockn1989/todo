@@ -22,7 +22,7 @@ export default class App extends Component {
         this.createTodoItem(`Have a lunch`)
       ],
       term: '',
-      field: ''
+      filter: 'All'
     };
 
     this.deleteItem = (id) => {
@@ -78,17 +78,8 @@ export default class App extends Component {
       });
     };
 
-    this.updateState = (array) => {
-      this.setState(({ todoData }) => {
-        const newArray = [...array]
-        return {
-          todoData: newArray
-        }
-      });
-    };
-
     this.onSearchChange = (term) => {
-      this.setState({term});
+      this.setState({ term });
     };
 
     this.search = (items, term) => {
@@ -100,26 +91,20 @@ export default class App extends Component {
       });
     };
 
-    this.onSortChange = (field) => {
-      this.setState({
-        field: field
-      });
+    this.onFilterChange = (filter) => {
+      this.setState({ filter });
     };
 
-    this.onSort = (items, field) => {
-        let todos = [];
-
+    this.filter = (items, field) => {
         switch (field) {
-          case `active`: todos = items.filter(({ done }) => !done);
-            break;
-          case `done`: todos = items.filter(({ done }) => done);
-            break;
+          case `active`: 
+            return items.filter(({ done }) => !done);
+          case `done`: 
+            return items.filter(({ done }) => done);
           default:
-            todos = [...items];
+            return items;
         };
-
-        return todos;
-    }
+    };
   }
 
 
@@ -134,13 +119,14 @@ export default class App extends Component {
   };
 
   render() {
-    const { todoData, term, field } = this.state;
+    const { todoData, term, filter } = this.state;
 
-    const visibleItems = this.search(todoData, term);
-    const sortedItems = this.onSort(todoData, field);
+    const visibleItems = this.filter(this.search(todoData, term), filter);
+
     const doneCount = todoData.filter(el => el.done).length;
     const todoCount = todoData.length - doneCount;
     const todoCountAll = todoData.length;
+
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount} todos={todoCountAll} />
@@ -150,8 +136,8 @@ export default class App extends Component {
             onSearchChange={this.onSearchChange}
           />
           <ItemStatusFilter 
-            data={sortedItems}
-            onSortChange={this.onSortChange}
+            filter={filter}
+            onFilterChange={this.onFilterChange}
           />
         </div>
 
