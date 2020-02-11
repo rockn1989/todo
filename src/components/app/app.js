@@ -109,7 +109,7 @@ export default class App extends Component {
 
 
 
-  createTodoItem = label => {
+  createTodoItem(label) {
     return {
       label: label,
       important: false,

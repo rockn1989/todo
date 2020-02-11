@@ -7,19 +7,10 @@ export default class SearchPanel extends Component {
     this.state = {
       term: ''
     };
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
-  onSearch(value, data) {
-    const oldArray = [...this.data];
-    const newArray = data.filter(({ label }) => {
-      return label.toLowerCase().includes(value);
-    });
-
-    value.length <= 0 ? this.updateState(oldArray) : this.updateState(newArray);
-    
-  }
-
-  onSearchChange = (e) => {
+  onSearchChange (e) {
     const term = e.target.value;
     this.setState({
       term: term
